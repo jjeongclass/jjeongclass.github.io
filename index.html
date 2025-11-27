@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학급 자리 배치 프로그램</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f0f2f5;
+            --desk-color: #ffd700;
+            --desk-border: #d4a017;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 컨트롤 패널 */
+        .control-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 60px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        button.secondary {
+            background-color: #95a5a6;
+        }
+        
+        button.action-btn {
+            background-color: #2ecc71;
+            font-size: 1.1em;
+            padding: 10px 20px;
+        }
+
+        /* 메인 영역: 학생 목록 + 교실 */
+        .main-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            flex: 1;
+            overflow: hidden; /* 내부 스크롤을 위해 */
+        }
+
+        /* 학생 명단 리스트 */
+        .student-list-section {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-inputs {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .student-input-item {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+
+        .student-input-item span {
+            font-size: 0.9em;
+            color: #666;
+            width: 30px;
+        }
+
+        .student-input-item input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #eee;
+        }
+
+        /* 교실 영역 */
+        .classroom-area {
+            flex: 1;
+            background-color: #fff;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden; /* 책상이 밖으로 나가는 것 방지 (선택사항) */
+        }
+
+        .teacher-desk {
+            width: 200px;
+            height: 40px;
+            background-color: #8d6e63;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .desk {
+            width: 100px;
+            height: 60px;
+            background-color: var(--desk-color);
+            border: 2px solid var(--desk-border);
+            border-radius: 8px;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            transition: box-shadow 0.2s, transform 0.1s;
+            z-index: 10;
+        }
+
+        .desk:active {
+            cursor: grabbing;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+            z-index: 100; /* 드래그 중 맨 위로 */
+        }
+
+        .desk .desk-label {
+            font-size: 0.7em;
+            color: #b8860b;
+            margin-bottom: 2px;
+        }
+
+        .desk .student-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        /* 유틸 */
+        .desk-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>🏫 학급 자리 배치</h1>
+
+    <div class="control-panel">
+        <div class="input-group">
+            <label>학생 수:</label>
+            <input type="number" id="studentCountInput" value="24" min="
