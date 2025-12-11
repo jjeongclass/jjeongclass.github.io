@@ -1,1 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌍 환경지킴이 스탬프</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Jua&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+    }
+
+    /* 헤더 */
+    header {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Jua', sans-serif;
+      font-size: 3em;
+      color: white;
+      text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: white;
+      font-size: 1.2em;
+      opacity: 0.95;
+    }
+
+    /* 메인 영역 */
+    .main-area {
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .section-title {
+      font-size: 1.8em;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #84fab0;
+    }
+
+    /* 실천 입력 폼 */
+    .action-form {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #dee2e6;
+      border-radius: 12px;
+      font-size: 1em;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #84fab0;
+      box-shadow: 0 0 0 3px rgba(132, 250, 176, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      border: none;
+      border-radius: 15px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      font-family: 'Jua', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(132, 250, 176, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(132, 250, 176, 0.5);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* 내 스탬프 */
+    .my-stamps {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      border: 3px solid #84fab0;
+    }
+
+    .stamp-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      border-radius: 15px;
+      color: white;
+    }
+
+    .stamp-count {
+      font-size: 2.5em;
+      font-weight: bold;
+      font-family: 'Jua', sans-serif;
+    }
+
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+    }
+
+    .stamp {
+      aspect-ratio: 1;
+      background: #f8f9fa;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      border: 3px dashed #dee2e6;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .stamp.earned {
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      border: 3px solid #84fab0;
+      animation: stampPop 0.5s ease-out;
+    }
+
+    @keyframes stampPop {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .stamp:hover {
+      transform: scale(1.1);
+    }
+
+    /* 실천 기록 */
+    .actions-list {
+      margin-top: 30px;
+    }
+
+    .action-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      border-left: 5px solid #84fab0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      animation: slideInLeft 0.5s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .action-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    }
+
+    .action-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .action-category {
+      background: #84fab0;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+
+    .action-date {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .action-text {
+      color: #2c3e50;
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    .action-name {
+      color: #8fd3f4;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 0.95em;
+    }
+
+    /* 사이드바 - 실천왕 순위 */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .ranking-panel {
+      background: white;
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      animation: fadeInRight 0.8s ease-out;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .ranking-title {
+      font-size: 1.5em;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      font-family: 'Jua', sans-serif;
+    }
+
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .rank-item:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
+
+    .rank-item.top-1 {
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+    }
+
+    .rank-item.top-2 {
+      background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+    }
+
+    .rank-item.top-3 {
+      background: linear-gradient(135deg, #cd7f32 0%, #e8a87c 100%);
+    }
+
+    .rank-number {
+      font-size: 1.5em;
+      font-weight: bold;
+      min-width: 35px;
+      text-align: center;
+      font-family: 'Jua', sans-serif;
+    }
+
+    .rank-info {
+      flex: 1;
+    }
+
+    .rank-name {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #2c3e50;
+      margin-bottom: 3px;
+    }
+
+    .rank-stamps {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .rank-medal {
+      font-size: 1.8em;
+    }
+
+    /* 반응형 */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .stamp-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      .main-area,
+      .ranking-panel {
+        padding: 25px;
+      }
+
+      .stamp-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+    }
+
+    /* 축하 모달 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.show {
+      display: flex;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 50px;
+      border-radius: 30px;
+      text-align: center;
+      max-width: 500px;
+      animation: zoomIn 0.5s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-emoji {
+      font-size: 5em;
+      margin-bottom: 20px;
+      animation: bounce 1s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .modal-title {
+      font-size: 2em;
+      font-family: 'Jua', sans-serif;
+      color: #84fab0;
+      margin-bottom: 15px;
+    }
+
+    .modal-text {
+      font-size: 1.2em;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .modal-btn {
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      border: none;
+      border-radius: 15px;
+      color: white;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Jua', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌍 환경지킴이 스탬프</h1>
+      <p class="subtitle">환경을 지키는 작은 실천, 스탬프로 기록해요!</p>
+    </header>
+
+    <!-- 메인 영역 -->
+    <div class="main-area">
+      <h2 class="section-title">
+        <span>✍️</span>
+        <span>오늘의 환경 실천</span>
+      </h2>
+
+      <!-- 실천 입력 폼 -->
+      <div class="action-form">
+        <div class="form-group">
+          <label for="userName">이름</label>
+          <input type="text" id="userName" placeholder="이름을 입력하세요" required>
+        </div>
+
+        <div class="form-group">
+          <label for="category">실천 카테고리</label>
+          <select id="category">
+            <option value="♻️ 재활용">♻️ 재활용</option>
+            <option value="💧 물 절약">💧 물 절약</option>
+            <option value="💡 에너지 절약">💡 에너지 절약</option>
+            <option value="🌱 친환경 생활">🌱 친환경 생활</option>
+            <option value="🚶 탄소 줄이기">🚶 탄소 줄이기</option>
+            <option value="🍃 기타">🍃 기타</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="action">실천한 내용</label>
+          <textarea id="action" placeholder="오늘 환경을 위해 무엇을 했나요?&#10;예: 텀블러를 사용했어요, 분리수거를 했어요, 걸어서 등교했어요" required></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="submitAction()">🌟 스탬프 받기!</button>
+      </div>
+
+      <!-- 내 스탬프 -->
+      <div class="my-stamps">
+        <h3 class="section-title" style="border: none; margin-bottom: 15px;">
+          <span>⭐</span>
+          <span>내 스탬프</span>
+        </h3>
+        <div class="stamp-info">
+          <div>
+            <div>총 스탬프</div>
+            <div class="stamp-count" id="myStampCount">0</div>
+          </div>
+          <div style="font-size: 3em;">🌍</div>
+        </div>
+        <div class="stamp-grid" id="stampGrid">
+          <!-- 동적으로 생성 -->
+        </div>
+      </div>
+
+      <!-- 실천 기록 -->
+      <div class="actions-list">
+        <h3 class="section-title">
+          <span>📝</span>
+          <span>모두의 환경 실천</span>
+        </h3>
+        <div id="actionsList">
+          <!-- 동적으로 생성 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 사이드바 - 실천왕 순위 -->
+    <aside class="sidebar">
+      <div class="ranking-panel">
+        <h3 class="ranking-title">🏆 실천왕 순위</h3>
+        <div class="ranking-list" id="rankingList">
+          <!-- 동적으로 생성 -->
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 축하 모달 -->
+  <div class="modal" id="congratsModal">
+    <div class="modal-content">
+      <div class="modal-emoji">🎉</div>
+      <h2 class="modal-title">축하합니다!</h2>
+      <p class="modal-text">환경을 지키는 스탬프를 받았어요!<br>지구가 여러분께 감사합니다! 💚</p>
+      <button class="modal-btn" onclick="closeModal()">확인</button>
+    </div>
+  </div>
+
+  <script>
+    let actions = [];
+    let userStats = {};
+
+    // 초기화
+    function init() {
+      loadData();
+      renderStamps();
+      renderActions();
+      renderRanking();
+    }
+
+    // 스탬프 렌더링 (20개)
+    function renderStamps() {
+      const userName = document.getElementById('userName').value.trim() || '나';
+      const myStamps = userStats[userName] || 0;
+      document.getElementById('myStampCount').textContent = myStamps;
+
+      const grid = document.getElementById('stampGrid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < 20; i++) {
+        const stamp = document.createElement('div');
+        stamp.className = 'stamp';
+        if (i < myStamps) {
+          stamp.classList.add('earned');
+          stamp.textContent = '🌟';
+        } else {
+          stamp.textContent = '⭐';
+        }
+        grid.appendChild(stamp);
+      }
+    }
+
+    // 실천 제출
+    function submitAction() {
+      const userName = document.getElementById('userName').value.trim();
+      const category = document.getElementById('category').value;
+      const actionText = document.getElementById('action').value.trim();
+
+      if (!userName) {
+        alert('이름을 입력해주세요!');
+        return;
+      }
+
+      if (!actionText) {
+        alert('실천한 내용을 입력해주세요!');
+        return;
+      }
+
+      // 새 실천 추가
+      const newAction = {
+        id: Date.now(),
+        userName: userName,
+        category: category,
+        text: actionText,
+        date: new Date().toLocaleString('ko-KR', { 
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        })
+      };
+
+      actions.unshift(newAction);
+
+      // 사용자 스탬프 증가
+      if (!userStats[userName]) {
+        userStats[userName] = 0;
+      }
+      userStats[userName]++;
+
+      // 저장
+      saveData();
+
+      // 렌더링
+      renderStamps();
+      renderActions();
+      renderRanking();
+
+      // 폼 초기화
+      document.getElementById('action').value = '';
+
+      // 축하 모달
+      showModal();
+
+      // 색종이 효과
+      createConfetti();
+    }
+
+    // 실천 기록 렌더링
+    function renderActions() {
+      const list = document.getElementById('actionsList');
+      list.innerHTML = '';
+
+      if (actions.length === 0) {
+        list.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">아직 실천 기록이 없어요. 첫 번째 환경지킴이가 되어주세요! 🌱</div>';
+        return;
+      }
+
+      actions.slice(0, 10).forEach(action => {
+        const card = document.createElement('div');
+        card.className = 'action-card';
+        card.innerHTML = `
+          <div class="action-header">
+            <span class="action-category">${action.category}</span>
+            <span class="action-date">${action.date}</span>
+          </div>
+          <div class="action-text">${action.text}</div>
+          <div class="action-name">- ${action.userName}</div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    // 순위 렌더링
+    function renderRanking() {
+      const rankingList = document.getElementById('rankingList');
+      rankingList.innerHTML = '';
+
+      // 사용자별 스탬프 수로 정렬
+      const rankings = Object.entries(userStats)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+
+      if (rankings.length === 0) {
+        rankingList.innerHTML = '<div style="text-align: center; padding: 20px; color: #6c757d;">아직 순위가 없어요!</div>';
+        return;
+      }
+
+      rankings.forEach(([name, stamps], index) => {
+        const item = document.createElement('div');
+        item.className = 'rank-item';
+        
+        if (index === 0) item.classList.add('top-1');
+        else if (index === 1) item.classList.add('top-2');
+        else if (index === 2) item.classList.add('top-3');
+
+        let medal = '';
+        if (index === 0) medal = '🥇';
+        else if (index === 1) medal = '🥈';
+        else if (index === 2) medal = '🥉';
+
+        item.innerHTML = `
+          <div class="rank-number">${index + 1}</div>
+          <div class="rank-info">
+            <div class="rank-name">${name}</div>
+            <div class="rank-stamps">🌟 ${stamps}개</div>
+          </div>
+          ${medal ? `<div class="rank-medal">${medal}</div>` : ''}
+        `;
+        rankingList.appendChild(item);
+      });
+    }
+
+    // 이름 입력시 스탬프 업데이트
+    document.getElementById('userName').addEventListener('input', () => {
+      renderStamps();
+    });
+
+    // 모달
+    function showModal() {
+      document.getElementById('congratsModal').classList.add('show');
+      setTimeout(() => {
+        closeModal();
+      }, 3000);
+    }
+
+    function closeModal() {
+      document.getElementById('congratsModal').classList.remove('show');
+    }
+
+    // 데이터 저장/불러오기
+    function saveData() {
+      localStorage.setItem('environmentActions', JSON.stringify(actions));
+      localStorage.setItem('environmentStats', JSON.stringify(userStats));
+    }
+
+    function loadData() {
+      const savedActions = localStorage.getItem('environmentActions');
+      const savedStats = localStorage.getItem('environmentStats');
+      
+      if (savedActions) {
+        actions = JSON.parse(savedActions);
+      }
+      
+      if (savedStats) {
+        userStats = JSON.parse(savedStats);
+      }
+    }
+
+    // 색종이 효과
+    function createConfetti() {
+      const colors = ['#84fab0', '#8fd3f4', '#ffd700', '#ff6b9d', '#fed6e3'];
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.style.position = 'fixed';
+          confetti.style.width = '10px';
+          confetti.style.height = '10px';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.top = '-10px';
+          confetti.style.zIndex = '9999';
+          confetti.style.borderRadius = '50%';
+          confetti.style.animation = 'confetti-fall 3s linear forwards';
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+    }
+
+    // 색종이 애니메이션
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes confetti-fall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 초기화
+    init();
+  </script>
+</body>
+</html>
