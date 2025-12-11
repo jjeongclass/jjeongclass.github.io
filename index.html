@@ -1,9 +1,574 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쩡쌤의 웹페이지</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <h1>쩡쌤의 웹페이지</h1>
-    <a href="envrionment.html">환경실천</a>
-    <a href="gugudan.html">구구단</a>
-    <a href="quiz.html">초성퀴즈</a>
-    <a href="seatingarrangement.html">자리바꾸기</a>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    /* 리퀴드 배경 효과 */
+    .liquid-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .blob-1 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .blob-2 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      bottom: -150px;
+      right: -150px;
+      animation-delay: 7s;
+    }
+
+    .blob-3 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 14s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      25% {
+        transform: translate(50px, -50px) scale(1.1);
+      }
+      50% {
+        transform: translate(-30px, 30px) scale(0.9);
+      }
+      75% {
+        transform: translate(40px, 20px) scale(1.05);
+      }
+    }
+
+    /* 글래스 컨테이너 */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* 글래스 헤더 */
+    .glass-header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glass-header h1 {
+      font-size: 5em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+      animation: textShine 3s ease-in-out infinite;
+    }
+
+    @keyframes textShine {
+      0%, 100% {
+        filter: brightness(1);
+      }
+      50% {
+        filter: brightness(1.3);
+      }
+    }
+
+    .glass-header p {
+      font-size: 1.3em;
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    /* 카드 그리드 */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 20px;
+      justify-items: center;
+    }
+
+    .glass-card {
+      width: 100%;
+      max-width: 350px;
+    }
+
+    /* 글래스모피즘 카드 */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 50px 35px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeInUp 1s ease-out backwards;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .glass-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .glass-card:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .glass-card:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .glass-card:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+
+    .glass-card:nth-child(6) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 카드 내부 리퀴드 효과 */
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      top: -75%;
+      left: -25%;
+      transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+      opacity: 0;
+    }
+
+    .glass-card:hover::before {
+      top: -50%;
+      opacity: 1;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-card:active {
+      transform: translateY(-5px) scale(0.98);
+    }
+
+    /* 카드 아이콘 */
+    .card-icon {
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3em;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.5s ease;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .glass-card:hover .card-icon {
+      transform: rotateY(360deg) scale(1.1);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* 카드 텍스트 */
+    .card-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 10px;
+      letter-spacing: 0px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .card-description {
+      font-size: 1em;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: 0px;
+    }
+
+    /* 카드 하단 장식 */
+    .card-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .glass-card:hover .card-glow {
+      opacity: 1;
+      height: 5px;
+    }
+
+    /* 반짝이는 파티클 */
+    .sparkle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 2s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* 푸터 */
+    .glass-footer {
+      text-align: center;
+      margin-top: 50px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .glass-footer p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95em;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: inline-block;
+    }
+
+    /* 마우스 커서 효과 */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease;
+      opacity: 0;
+    }
+
+    body:hover .cursor-glow {
+      opacity: 1;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .glass-header h1 {
+        font-size: 3em;
+      }
+
+      .glass-header p {
+        font-size: 1.1em;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .glass-card {
+        padding: 40px 25px;
+      }
+
+      .card-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5em;
+      }
+
+      .card-title {
+        font-size: 1.5em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .glass-header h1 {
+        font-size: 2.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 리퀴드 배경 -->
+  <div class="liquid-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- 마우스 커서 효과 -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="container">
+    <!-- 헤더 -->
+    <header class="glass-header">
+      <h1>쩡쌤의 웹페이지</h1>
+      <p>학습과 성장을 위한 특별한 공간</p>
+    </header>
+
+    <!-- 카드 그리드 -->
+    <div class="cards-grid">
+      <!-- 환경실천 카드 -->
+      <a href="environment.html" class="glass-card">
+        <div class="card-icon">🌍</div>
+        <div class="card-content">
+          <h2 class="card-title">환경실천</h2>
+          <p class="card-description">환경을 지키는 작은 실천을 기록하고 스탬프를 모아보세요</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+
+      <!-- 독서왕 카드 -->
+      <a href="read.html" class="glass-card">
+        <div class="card-icon">📚</div>
+        <div class="card-content">
+          <h2 class="card-title">독서왕</h2>
+          <p class="card-description">읽은 책을 기록하고 독서왕에 도전해보세요</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+
+      <!-- 구구단 카드 -->
+      <a href="gugudan.html" class="glass-card">
+        <div class="card-icon">✨</div>
+        <div class="card-content">
+          <h2 class="card-title">구구단</h2>
+          <p class="card-description">재미있는 구구단 퀴즈로 수학 실력을 키워보세요</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+
+      <!-- 초성퀴즈 카드 -->
+      <a href="quiz.html" class="glass-card">
+        <div class="card-icon">💭</div>
+        <div class="card-content">
+          <h2 class="card-title">초성퀴즈</h2>
+          <p class="card-description">다양한 카테고리의 초성 퀴즈에 도전해보세요</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+
+      <!-- 자리바꾸기 카드 -->
+      <a href="seating.html" class="glass-card">
+        <div class="card-icon">🪑</div>
+        <div class="card-content">
+          <h2 class="card-title">자리바꾸기</h2>
+          <p class="card-description">공정한 자리 배치를 위한 랜덤 시스템입니다</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+
+      <!-- 강의자료 카드 -->
+      <a href="https://padlet.com/sjcgne/7-_-_-fewh42pxgt8opkr7" target="_blank" class="glass-card">
+        <div class="card-icon">📖</div>
+        <div class="card-content">
+          <h2 class="card-title">강의자료</h2>
+          <p class="card-description">수업 자료와 학습 내용을 확인해보세요</p>
+        </div>
+        <div class="card-glow"></div>
+      </a>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="glass-footer">
+      <p>✨ Made with love by 쩡쌤 ✨</p>
+    </footer>
+  </div>
+
+  <script>
+    // 마우스 커서 글로우 효과
+    const cursorGlow = document.getElementById('cursorGlow');
     
+    document.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // 랜덤 반짝이 파티클 생성
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * window.innerWidth + 'px';
+      sparkle.style.top = Math.random() * window.innerHeight + 'px';
+      sparkle.style.animationDelay = Math.random() * 2 + 's';
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 2000);
+    }
+
+    // 주기적으로 파티클 생성
+    setInterval(createSparkle, 500);
+
+    // 카드 클릭 시 리플 효과
+    document.querySelectorAll('.glass-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(255,255,255,0.5)';
+        ripple.style.width = '20px';
+        ripple.style.height = '20px';
+        ripple.style.left = e.offsetX - 10 + 'px';
+        ripple.style.top = e.offsetY - 10 + 'px';
+        ripple.style.animation = 'ripple 0.6s ease-out';
+        ripple.style.pointerEvents = 'none';
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    // 리플 애니메이션
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          width: 200px;
+          height: 200px;
+          opacity: 0;
+          left: calc(50% - 100px);
+          top: calc(50% - 100px);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 패럴랙스 스크롤 효과
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      document.querySelectorAll('.blob').forEach((blob, index) => {
+        const speed = (index + 1) * 0.1;
+        blob.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+  </script>
+</body>
 </html>
