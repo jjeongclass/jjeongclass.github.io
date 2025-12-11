@@ -486,6 +486,31 @@
       cursor: pointer;
       font-family: 'Jua', sans-serif;
     }
+
+    /* 홈 버튼 */
+    .home-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 <body>
@@ -579,6 +604,9 @@
       <button class="modal-btn" onclick="closeModal()">확인</button>
     </div>
   </div>
+
+  <!-- 홈 버튼 -->
+  <a href="index.html" class="home-btn">🏠</a>
 
   <script>
     let actions = [];
